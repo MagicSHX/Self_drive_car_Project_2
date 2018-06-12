@@ -12125,7 +12125,7 @@ div#notebook {
     <span class="kn">import</span> <span class="nn">glob</span>
 
     <span class="n">my_images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./web image/*.png&#39;</span><span class="p">))</span>
-    <span class="n">my_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">18</span><span class="p">])</span>
+    <span class="n">my_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">37</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
 
     <span class="n">figures</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
@@ -12166,6 +12166,11 @@ div#notebook {
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
         <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
         <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="s2">&quot;./lenet&quot;</span><span class="p">)</span>
+        
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">correct_pred</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">my_signs_normalized</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Print the real and predicted labels</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">my_labels</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span>
         <span class="n">my_top_k</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">top_k</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">my_signs_normalized</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">})</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
@@ -17324,8 +17329,8 @@ Epoch 4998 completed out of 5000
 Epoch 4999 completed out of 5000
 Epoch 5000 completed out of 5000
 Model saved
-[1, 26, 8, 27, 1, 23, 11, 0, 16, 5]
-[ 1 26  8 27  1 23 11  0 16  5]
+[28, 25, 8, 26, 7, 9, 17, 10, 3, 3]
+[28 25  8 26  7  9 17 10  3  3]
 </pre>
 </div>
 </div>
@@ -17351,20 +17356,22 @@ Model saved
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>4410
 2
-Accuracy_valid: 0.949
+Accuracy_valid: 0.951
 12630
 32
 32
-Accuracy_test: 0.940
+Accuracy_test: 0.930
 (32, 32, 3)
 (32, 32)
 INFO:tensorflow:Restoring parameters from ./lenet
+[37 18  1 22 35 15]
+[37 18  1 22 35 15]
 Image 1 :
-    Possibility 1 : (2%)
-    Possibility 2 : (2%)
-    Possibility 3 : (2%)
-    Possibility 4 : (2%)
-    Possibility 5 : (2%)
+    Possibility 1 : (100%)
+    Possibility 2 : (0%)
+    Possibility 3 : (0%)
+    Possibility 4 : (0%)
+    Possibility 5 : (0%)
 Image 2 :
     Possibility 1 : (100%)
     Possibility 2 : (0%)
@@ -17378,9 +17385,9 @@ Image 3 :
     Possibility 4 : (0%)
     Possibility 5 : (0%)
 Image 4 :
-    Possibility 1 : (100%)
-    Possibility 2 : (0%)
-    Possibility 3 : (0%)
+    Possibility 1 : (95%)
+    Possibility 2 : (3%)
+    Possibility 3 : (2%)
     Possibility 4 : (0%)
     Possibility 5 : (0%)
 Image 5 :
